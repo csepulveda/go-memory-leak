@@ -46,7 +46,7 @@ func serializeJSON(data Product, store *[]string) {
 	// Add the serialized JSON initially to the slice
 	*store = append(*store, string(jsonData))
 
-	initSleep := 200 * time.Millisecond
+	initSleep := 1000 * time.Millisecond
 	for {
 		time.Sleep(initSleep)
 		// Duplicate the slice content
