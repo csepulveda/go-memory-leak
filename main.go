@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	_ "net/http/pprof" // Import pprof for profiling
 	"runtime"
 	"time"
 )
@@ -79,6 +80,14 @@ func main() {
 
 	// Run the memory-leaking function in a goroutine
 	go serializeJSON(data, &store)
+
+	// Start pprof server on port 8080
+	go func() {
+		log.Println("Starting pprof server on http://localhost:8080/debug/pprof/")
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			log.Fatalf("pprof server failed: %v", err)
+		}
+	}()
 
 	// Monitor memory usage
 	for {
